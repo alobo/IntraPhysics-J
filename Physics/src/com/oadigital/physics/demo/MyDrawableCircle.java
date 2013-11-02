@@ -21,6 +21,6 @@ public class MyDrawableCircle extends Circle implements com.oadigital.physics.li
 	}
 	
 	public void draw(Canvas canvas, BaseObject obj) {
-		canvas.drawCircle(obj.x, obj.y, ((Circle) obj).radius, paint);
+		canvas.drawCircle(obj.position.X, obj.position.Y, ((Circle) obj).radius, paint);
 	} 
 }

@@ -55,28 +55,28 @@ class Panel extends View {
 	public void setup() {
 
 		MyDrawableCircle ball1 = new MyDrawableCircle(Color.MAGENTA, 20);		
-		ball1.x = 200;
-		ball1.y = 40;
+		ball1.position.X = 200;
+		ball1.position.Y = 40;
 		ball1.cR = 0.85f;
-		ball1.v.X = 24.0f;
+		ball1.velocity.X = 24.0f;
 
 		MyDrawableCircle ball2 = new MyDrawableCircle(Color.YELLOW, 20);
-		ball2.x = 20;
-		ball2.y = 12;
+		ball2.position.X = 20;
+		ball2.position.Y = 12;
 		ball2.cR = 0.65f;
-		ball2.v.X = -20.0f;
+		ball2.velocity.X = -20.0f;
 
 		MyDrawableCircle ball3 = new MyDrawableCircle(Color.BLUE, 30);
-		ball3.x = 80;
-		ball3.y = 52;
+		ball3.position.X = 80;
+		ball3.position.Y = 52;
 		ball3.cR = 0.95f;
-		ball3.v.X = 40.0f;
+		ball3.velocity.X = 40.0f;
 
 		SoccerBall soccerBall = new SoccerBall(this.getContext(), 55);
-		soccerBall.x = 1000;
-		soccerBall.y = 60;
+		soccerBall.position.X = 1000;
+		soccerBall.position.Y = 60;
 		soccerBall.cR = 0.75f;
-		soccerBall.v.X = 25.0f;
+		soccerBall.velocity.X = 25.0f;
 		
 		environment.addObject(ball1);
 		environment.addObject(ball2);

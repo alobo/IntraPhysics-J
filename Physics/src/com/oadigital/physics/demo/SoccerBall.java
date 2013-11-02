@@ -24,6 +24,6 @@ public class SoccerBall extends Circle implements com.oadigital.physics.lib.IDra
 	}
 
 	public void draw(Canvas canvas, BaseObject obj) {
-		canvas.drawBitmap(bitmap, obj.x, obj.y, null);
+		canvas.drawBitmap(bitmap, obj.position.X, obj.position.Y, null);
 	} 
 }
