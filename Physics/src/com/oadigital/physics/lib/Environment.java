@@ -129,4 +129,20 @@ public class Environment{
             }
 		}
 	}
+	
+	/**
+	 * Returns the index of any object at the given point
+	 */
+	public int getObjectAtCoordinate(int mX, int mY){
+		for (int i = 0; i < objectsArray.length; i++){
+			if(objectsArray[i] != null){
+				if(mX >= objectsArray[i].position.X - objectsArray[i].dimen.X && mX <= objectsArray[i].position.X + objectsArray[i].dimen.X){
+					if(mY >= objectsArray[i].position.Y - objectsArray[i].dimen.Y && mY <= objectsArray[i].position.Y + objectsArray[i].dimen.Y){
+						return i; 
+					}
+				}
+			}
+		}
+		return -1;
+	}
 }

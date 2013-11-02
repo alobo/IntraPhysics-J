@@ -5,8 +5,11 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.os.SystemClock;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnTouchListener;
 import android.view.ViewTreeObserver;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 
@@ -16,15 +19,22 @@ import com.oadigital.physics.lib.IDrawable;
 /**
  * Draws the simulated environment to the screen
  */
-class Panel extends View {
+class Panel extends View implements OnTouchListener {
 	
 	Environment environment = new Environment();
 	
 	Bitmap mBitmap;
 	Paint a = new Paint();
 	
+	boolean isTouched = false;
+	int touchObjectIndex = -1;
+	int lastX = 0;
+	int lastY = 0;
+	long deltaT = 0;
+	
 	public Panel(Context context) {
 	    super(context);
+	    setOnTouchListener(this);
 	    //mBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher);
 		
 		a.setColor(Color.MAGENTA);
@@ -105,5 +115,58 @@ class Panel extends View {
 		
 		this.invalidate();
 	    
+	}
+	
+	@Override
+	public boolean onTouch(View view, MotionEvent event) {
+		
+		switch (event.getAction()){
+		
+		case MotionEvent.ACTION_DOWN:
+			
+			//Get the index of the clicked object
+			touchObjectIndex = environment.getObjectAtCoordinate((int)event.getX(), (int)event.getY());
+			
+			if(touchObjectIndex > -1){
+				isTouched = true;
+			}			
+			
+			break;
+
+		case MotionEvent.ACTION_MOVE:
+			
+			//Check if an object is being moved
+			if(touchObjectIndex > -1){
+				environment.objectsArray[touchObjectIndex].acceleration.X = 0;
+				environment.objectsArray[touchObjectIndex].acceleration.Y = 0;
+				
+				environment.objectsArray[touchObjectIndex].velocity.X = 0;
+				environment.objectsArray[touchObjectIndex].velocity.Y = 0;
+				
+				environment.objectsArray[touchObjectIndex].position.X = event.getX();
+				environment.objectsArray[touchObjectIndex].position.Y = event.getY();
+				
+				if(event.getHistorySize() > 0){
+					lastX = (int) event.getHistoricalX(0);
+					lastY = (int) event.getHistoricalX(0);
+					deltaT =  SystemClock.uptimeMillis() - event.getHistoricalEventTime(0);
+				}
+			}
+			
+			break;
+
+		case MotionEvent.ACTION_UP:
+			
+			//Check if an object is being moved
+			if(touchObjectIndex > -1){
+				environment.objectsArray[touchObjectIndex].velocity.X = ((event.getX() - (float)lastX)/deltaT)/0.25f;
+				environment.objectsArray[touchObjectIndex].velocity.Y = ((event.getY() - (float)lastY)/deltaT)/0.25f;
+			}
+			
+			touchObjectIndex = -1;
+			
+			break;
+		}
+		return true;
 	}
 }
