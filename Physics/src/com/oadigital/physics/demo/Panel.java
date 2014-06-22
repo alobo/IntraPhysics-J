@@ -5,9 +5,9 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.os.SystemClock;
 import android.util.Log;
 import android.view.MotionEvent;
+import android.view.VelocityTracker;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.ViewTreeObserver;
@@ -28,9 +28,8 @@ class Panel extends View implements OnTouchListener {
 	
 	boolean isTouched = false;
 	int touchObjectIndex = -1;
-	int lastX = 0;
-	int lastY = 0;
-	long deltaT = 0;
+	
+	private VelocityTracker mVelocityTracker = null;
 	
 	public Panel(Context context) {
 	    super(context);
@@ -87,7 +86,7 @@ class Panel extends View implements OnTouchListener {
 		soccerBall.position.Y = 60;
 		soccerBall.cR = 0.75f;
 		soccerBall.velocity.X = 25.0f;
-		soccerBall.angularVelocity = 4;
+		soccerBall.angularVelocity = 0.1f;
 		
 		environment.addObject(ball1);
 		environment.addObject(ball2);
@@ -128,7 +127,15 @@ class Panel extends View implements OnTouchListener {
 			
 			if(touchObjectIndex > -1){
 				isTouched = true;
-			}			
+			}		
+			
+			if(mVelocityTracker == null) {
+                mVelocityTracker = VelocityTracker.obtain();
+            }
+            else {
+                mVelocityTracker.clear();
+            }
+            mVelocityTracker.addMovement(event);
 			
 			break;
 
@@ -145,11 +152,7 @@ class Panel extends View implements OnTouchListener {
 				environment.objectsArray[touchObjectIndex].position.X = event.getX();
 				environment.objectsArray[touchObjectIndex].position.Y = event.getY();
 				
-				if(event.getHistorySize() > 0){
-					lastX = (int) event.getHistoricalX(0);
-					lastY = (int) event.getHistoricalX(0);
-					deltaT =  SystemClock.uptimeMillis() - event.getHistoricalEventTime(0);
-				}
+				mVelocityTracker.addMovement(event);
 			}
 			
 			break;
@@ -157,9 +160,10 @@ class Panel extends View implements OnTouchListener {
 		case MotionEvent.ACTION_UP:
 			
 			//Check if an object is being moved
-			if(touchObjectIndex > -1){
-				environment.objectsArray[touchObjectIndex].velocity.X = ((event.getX() - (float)lastX)/deltaT)/0.25f;
-				environment.objectsArray[touchObjectIndex].velocity.Y = ((event.getY() - (float)lastY)/deltaT)/0.25f;
+			if(touchObjectIndex > -1){				
+				mVelocityTracker.computeCurrentVelocity(100);				
+				environment.objectsArray[touchObjectIndex].velocity.X = mVelocityTracker.getXVelocity() * environment.scale;
+				environment.objectsArray[touchObjectIndex].velocity.Y = mVelocityTracker.getYVelocity() * environment.scale;
 			}
 			
 			touchObjectIndex = -1;

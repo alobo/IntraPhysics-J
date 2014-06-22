@@ -8,7 +8,7 @@ import com.oadigital.physics.lib.objects.BaseObject;
  * Provides Environmental Constants
  */
 public class Environment{
-	float scale = 0.25f;  //10px = 1m
+	public float scale = 0.25f;  //10px = 1m
 	public float screenSizeX = 640;
 	public float screenSizeY = 640;
 	float accelerationGravity = 9.8f;
