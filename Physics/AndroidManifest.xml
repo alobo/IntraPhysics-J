@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1" android:versionName="1.0" package="com.orionadler.physics">
   <uses-sdk android:minSdkVersion="8"/>
-  <application android:hardwareAccelerated="true" android:debuggable="true" android:icon="@drawable/icon" android:label="Physics">
+  <application android:debuggable="true" android:icon="@drawable/icon" android:label="Physics">
     <activity android:name="com.oadigital.physics.demo.MainActivity">
       <intent-filter>
         <action android:name="android.intent.action.MAIN"/>
