@@ -87,6 +87,7 @@ class Panel extends View implements OnTouchListener {
 		soccerBall.position.Y = 60;
 		soccerBall.cR = 0.75f;
 		soccerBall.velocity.X = 25.0f;
+		soccerBall.angularVelocity = 4;
 		
 		environment.addObject(ball1);
 		environment.addObject(ball2);
@@ -103,8 +104,6 @@ class Panel extends View implements OnTouchListener {
 	    
 		environment.processAll();
 		
-		Log.i("Physics", "Drawing Frame.");
-
 		//Loop through all items and draw them
 		for (int i = 0; i < environment.objectsArray.length; i++){
 			if(environment.objectsArray[i] != null){  

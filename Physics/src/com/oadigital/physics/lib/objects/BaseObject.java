@@ -17,6 +17,10 @@ public class BaseObject{
 	public Vector2D position = new Vector2D();
 	public Vector2D velocity = new Vector2D();
 	public Vector2D acceleration = new Vector2D();
+	
+	public float angularDisplacement = 0f;
+	public float angularVelocity = 0f;
+	public float angularAcceleration = 0f;
 
 	//Mass in Kilograms
 	public float mass = 10.0f;

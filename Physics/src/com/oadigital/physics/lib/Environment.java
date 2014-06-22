@@ -124,6 +124,8 @@ public class Environment{
 				objectsArray[i].position.X += objectsArray[i].velocity.X * scale;
 				objectsArray[i].position.Y += objectsArray[i].velocity.Y * scale;
 				
+				objectsArray[i].angularDisplacement += objectsArray[i].angularVelocity;
+				
 				//objectCollisions(objectsArray);
 				boundingArea(objectsArray[i]);		
             }
